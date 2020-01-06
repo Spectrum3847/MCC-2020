@@ -16,7 +16,6 @@ import frc.lib.util.SpectrumPreferences;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Drive;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,8 +24,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
-  public static OI oi;
 
   // The robot's subsystems and commands are defined here...
   private final Drivetrain Drivetrain = new Drivetrain();
@@ -53,21 +50,17 @@ public class RobotContainer {
 		SpectrumLogger.getInstance().intialize();  //setup files for logging
 		printInfo("Start robotInit()");
     //Dashboard.intializeDashboard();
-    oi = new OI();
+    SpectrumXboxController driverController = new SpectrumXboxController(0, .17, .05);
     SpectrumLogger.getInstance().finalize();
     
     Drivetrain.setDefaultCommand(
-      new RunCommand(() -> Drivetrain
-        .arcadeDrive(OI.driverController.triggers.getTwist(), OI.driverController.leftStick.getX()
-        ),
-        Drivetrain
-      )
+      new Drive(Drivetrain, driverController.triggers.getTwist(), driverController.leftStick.getX())
     );
   }
 
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
+   * inst antiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
