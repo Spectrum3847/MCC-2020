@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
+import frc.lib.controllers.SpectrumXboxController;
 import frc.robot.Robot;
 
 import java.util.function.DoubleSupplier;
@@ -22,12 +23,15 @@ public class Drive extends CommandBase {
   private final Drivetrain m_drive;
   private final double m_forward;
   private final double m_rotation;
+
+  private final SpectrumXboxController driverController;
   
-  public Drive(Drivetrain subsystem, double forward, double rotation) {
+  public Drive(Drivetrain subsystem, double forward, double rotation, SpectrumXboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = subsystem;
     m_forward = forward;
     m_rotation = rotation;
+    driverController = controller;
     addRequirements(m_drive);
   }
 
@@ -39,7 +43,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.arcadeDrive(m_forward, m_rotation);
+    m_drive.arcadeDrive(driverController.triggers.getTwist(), driverController.leftStick.getX());
   }
 
   // Called once the command ends or is interrupted.

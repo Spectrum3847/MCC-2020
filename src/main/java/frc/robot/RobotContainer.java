@@ -16,6 +16,8 @@ import frc.lib.util.SpectrumPreferences;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Drive;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -29,6 +31,8 @@ public class RobotContainer {
   private final Drivetrain Drivetrain = new Drivetrain();
   //private final SpectrumLogger logger;
   private final SpectrumPreferences prefs;
+  SpectrumXboxController driverController = new SpectrumXboxController(0, .17, .05);
+  //XboxController controller = new XboxController(0);
 
   // Add Debug flags
   // You can have a flag for each subsystem, etc
@@ -43,19 +47,20 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    configureButtonBindings();
+    
     prefs = SpectrumPreferences.getInstance();
 
     initDebugger(); //Init Debugger
 		SpectrumLogger.getInstance().intialize();  //setup files for logging
 		printInfo("Start robotInit()");
     //Dashboard.intializeDashboard();
-    SpectrumXboxController driverController = new SpectrumXboxController(0, .17, .05);
     SpectrumLogger.getInstance().finalize();
     
     Drivetrain.setDefaultCommand(
-      new Drive(Drivetrain, driverController.triggers.getTwist(), driverController.leftStick.getX())
+      new Drive(Drivetrain, driverController.triggers.getTwist(), driverController.leftStick.getX(), driverController)
     );
+
+    configureButtonBindings();
   }
 
   /**
