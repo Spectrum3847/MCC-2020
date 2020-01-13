@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.RobotConstants;
 
@@ -65,7 +64,7 @@ public class Util {
 	private static int count = 0;
 	private static int total = 0;
 	public static double movingAvgCurrent(TalonSRX motor) {
-		double a = motor.getOutputCurrent();
+		double a = motor.getStatorCurrent();
 		if (currentValues[count] != 0) {
 			total -= currentValues[count];
 		}

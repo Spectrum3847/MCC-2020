@@ -11,7 +11,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class Drivetrain extends SubsystemBase {
   /**
@@ -59,5 +61,18 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void dashboard(){
+    //Add values that need to be updated on the dashboard.
+    SmartDashboard.putNumber("Drive/left-output", leftRearMotor.getStatorCurrent());
+    SmartDashboard.putNumber("Drive/right-output", rightRearMotor.getStatorCurrent());
+    SmartDashboard.putNumber("Drive/SteerStick", RobotContainer.driverController.leftStick.getX());
+    //Put values here that we don't need during matches
+
+    if(!RobotContainer.DS.isFMSAttached()){
+      SmartDashboard.putNumber("Drive/leftR-output", leftRearMotor.getStatorCurrent());
+      SmartDashboard.putNumber("Drive/rightR-output", rightRearMotor.getStatorCurrent());
+    }
   }
 }

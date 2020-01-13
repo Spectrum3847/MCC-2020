@@ -22,6 +22,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
 
+  public static int brownOutCtn = 0;
+
   // Add Debug flags
   // You can have a flag for each subsystem, etc
   public static final String _controls = "CONTROL";

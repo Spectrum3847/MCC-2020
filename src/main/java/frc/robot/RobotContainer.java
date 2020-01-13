@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.lib.controllers.SpectrumXboxController;
@@ -16,8 +17,6 @@ import frc.lib.util.SpectrumPreferences;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Drive;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -28,11 +27,12 @@ import frc.robot.Constants;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain Drivetrain = new Drivetrain();
-  //private final SpectrumLogger logger;
-  private final SpectrumPreferences prefs;
-  SpectrumXboxController driverController = new SpectrumXboxController(0, .17, .05);
-  //XboxController controller = new XboxController(0);
+  public static Drivetrain Drivetrain = new Drivetrain();
+  public static SpectrumLogger logger = SpectrumLogger.getInstance();
+  public static SpectrumPreferences prefs = SpectrumPreferences.getInstance();
+  public static SpectrumXboxController driverController = new SpectrumXboxController(0, .17, .05);
+  public static DriverStation DS;
+  
 
   // Add Debug flags
   // You can have a flag for each subsystem, etc
@@ -47,9 +47,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    
-    prefs = SpectrumPreferences.getInstance();
-
+    DS = DriverStation.getInstance();
     initDebugger(); //Init Debugger
 		SpectrumLogger.getInstance().intialize();  //setup files for logging
 		printInfo("Start robotInit()");
@@ -57,7 +55,7 @@ public class RobotContainer {
     SpectrumLogger.getInstance().finalize();
     
     Drivetrain.setDefaultCommand(
-      new Drive(Drivetrain, driverController.triggers.getTwist(), driverController.leftStick.getX(), driverController)
+      new Drive(Drivetrain, driverController)
     );
 
     configureButtonBindings();
