@@ -13,7 +13,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.util.Debugger;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.lib.util.SpectrumLogger;
 
 public class Drivetrain extends SubsystemBase {
   /**
@@ -39,7 +42,9 @@ public class Drivetrain extends SubsystemBase {
     rightFrontMotor.configFactoryDefault();
 
     leftRearMotor.setInverted(true);
+    leftFrontMotor.setInverted(true);
     rightRearMotor.setInverted(false);
+    rightFrontMotor.setInverted(false);
     
     int currentLimit = 65;
     leftRearMotor.configPeakCurrentLimit(currentLimit);
@@ -61,6 +66,26 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void printDebug(String msg){
+    Debugger.println(msg, Robot._drive, Debugger.debug2);
+  }
+  
+  public void printInfo(String msg){
+    Debugger.println(msg, Robot._drive, Debugger.info3);
+  }
+  
+  public void printWarning(String msg) {
+    Debugger.println(msg, Robot._drive, Debugger.warning4);
+  }
+
+  public void print(String msg){
+    System.out.println(msg);
+  }
+
+  public void logEvent(String event){
+		SpectrumLogger.getInstance().addEvent(Robot._drive, event);
   }
 
   public void dashboard(){
